@@ -23,9 +23,9 @@ dnl This file must be processed by autoconf
 
 dnl Configure.in file for Torc-Lite
 
-AC_INIT(Torc-Lite, 0.1a,,Torc-Lite)
+AC_INIT([Torc-Lite],[0.1a],[],[Torc-Lite])
 AC_CONFIG_AUX_DIR(auxdir)
-AC_CANONICAL_SYSTEM
+AC_CANONICAL_TARGET
 
 AC_CONFIG_HEADERS(include/torc_config.h)
 AM_INIT_AUTOMAKE
@@ -33,7 +33,7 @@ AM_INIT_AUTOMAKE
 AC_PROG_CC(mpicc)
 AC_PROG_F77(mpif90)
 
-AC_LANG_C
+AC_LANG([C])
 AC_PROG_CPP
 
 AC_PROG_MAKE_SET
@@ -83,7 +83,7 @@ fi
 syncopt=""
 mutexspin=""
 AC_ARG_WITH(sync,
-    AC_HELP_STRING([--with-sync=method], [posix synchronization mechanism (mutex, mutex_try, spin, spin_try)]),
+    AS_HELP_STRING([--with-sync=method],[posix synchronization mechanism (mutex, mutex_try, spin, spin_try)]),
     [
     case $withval in
         mutex| mutex_try )    syncopt=$withval
@@ -162,7 +162,7 @@ fi
 #==============================================================================
 NNODES="1024"
 AC_ARG_WITH(maxnodes,
-    AC_HELP_STRING([--with-maxnodes=num], [maximum number of nodes (default: 1024)]),
+    AS_HELP_STRING([--with-maxnodes=num],[maximum number of nodes (default: 1024)]),
     [
     NNODES=$withval
     ]
@@ -174,7 +174,7 @@ AC_SUBST(NNODES)
 #==============================================================================
 NVPS="64"
 AC_ARG_WITH(maxvps,
-    AC_HELP_STRING([--with-maxvps=num], [maximum number of virtual processors (default: 64)]),
+    AS_HELP_STRING([--with-maxvps=num],[maximum number of virtual processors (default: 64)]),
     [
     NVPS=$withval
     ]
@@ -185,7 +185,7 @@ AC_SUBST(NVPS)
 # Enable debugging
 #==============================================================================
 AC_ARG_ENABLE(debug,
-    AC_HELP_STRING([--enable-debug], [enable debugging (default:disabled)]),
+    AS_HELP_STRING([--enable-debug],[enable debugging (default:disabled)]),
     if eval "test x$enable_debug = xyes"; then
         DEBUGFLAG="-g"
     else
@@ -299,7 +299,7 @@ AC_MSG_RESULT([$defcls])
 #=============================================================================
 clsize=""
 AC_ARG_WITH(cachelinesize,
-    AC_HELP_STRING([--with-cachelinesize=value], [cache line size]),
+    AS_HELP_STRING([--with-cachelinesize=value],[cache line size]),
     [
         clsize=$withval
         AC_MSG_NOTICE([cache line size is set to $clsize])
@@ -379,14 +379,14 @@ AC_ARG_WITH(mpilibdir,
 
 # Statistics
 #AC_ARG_ENABLE(stats,
-#    AC_HELP_STRING([--enable-stats], [enable statistics (default:disabled)]),
+#    AS_HELP_STRING([--enable-stats],[enable statistics (default:disabled)]),
 #    if eval "test x$enable_stats = xyes"; then
         AC_DEFINE(TORC_STATS,,[Runtime statistics])
 #    fi,)
 
 # Non blocking communication (useful for mpi libraries that do not provide thread safety)
 #AC_ARG_ENABLE(nonblocking,
-#    AC_HELP_STRING([--enable-nonblocking], [enable nonblocking server thread (default:disabled)]),
+#    AS_HELP_STRING([--enable-nonblocking],[enable nonblocking server thread (default:disabled)]),
 #    if eval "test x$enable_nonblocking = xyes"; then
 #        AC_DEFINE(NONBLOCKING,,[Non-blocking server thread])
 #    fi,)
@@ -399,7 +399,7 @@ AC_ARG_WITH(mpilibdir,
 dnl AC_CHECK_DECL(__GNUC__, [ echo yes ], [ echo no])
 
 AC_ARG_ENABLE(debug,
-    AC_HELP_STRING([--enable-debug], [enable debugging (default:disabled)]),
+    AS_HELP_STRING([--enable-debug],[enable debugging (default:disabled)]),
     if eval "test x$enable_debug = xyes"; then
         DEBUGFLAG="-g"
     else
@@ -445,4 +445,5 @@ else
 # AC_MSG_FAILURE([MPI/C not enabled])
 fi
 
-AC_OUTPUT(Makefile src/Makefile scripts/Makefile demo/Makefile)
+AC_CONFIG_FILES([Makefile src/Makefile scripts/Makefile demo/Makefile])
+AC_OUTPUT

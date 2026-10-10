@@ -615,7 +615,7 @@ int _torc_mpi2b_type(MPI_Datatype dtype)
     else if (dtype == MPI_UNSIGNED_LONG_LONG)
         return T_MPI_UNSIGNED_LONG_LONG;
     else
-        Error("unsupported MPI data type");
+        Error1("unsupported MPI data type -> %ld", (long)dtype);
 
     return 0;       /* never reached */
 }

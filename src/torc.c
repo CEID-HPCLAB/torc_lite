@@ -788,7 +788,7 @@ void F77_FUNC_(torc_createf, TORC_CREATEF) (int *pqueue, void (* work) (), int *
 // this is here to support the new pndl version
 void F77_FUNC_(torc_taskf, TORC_TASKF) (void (* work) (), int *ptype, int *pnarg, ...)
 {
-    int queue = torc_worker_id(); //*pqueue;
+    int queue = torc_worker_id(); /* *pqueue; */
     int narg = *pnarg;
     int type = *ptype; // ignored
 

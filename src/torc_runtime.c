@@ -454,6 +454,13 @@ void _torc_opt (int argc, char *argv[])
     s = (char *) getenv("TORC_YIELDTIME");
     if (s != 0 && sscanf(s, "%d", &val) == 1 && val > 0) yieldtime = val;
 
+    int stealing = 0;
+    s = (char *) getenv("TORC_STEALING");
+    if (s != 0 && sscanf(s, "%d", &val) == 1 && val > 0) {
+        printf("enabling task stealing...\n"); fflush(0);
+        _torc_set_internode_stealing(1);
+    }
+
     throttling_factor = -1;
     s = (char *) getenv("TORC_THROTTLING_FACTOR");
     if (s != 0 && sscanf(s, "%d", &val) == 1 && val > 0) throttling_factor = val;
