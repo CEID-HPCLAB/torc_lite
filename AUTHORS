@@ -1,6 +1,26 @@
-Dr. Panagiotis Hadjidoukas (phadjido@gmail.com)
-CEID, University of Patras
+Torc-Lite — Authorship and Acknowledgments
+=========================================
 
+SOFTWARE AUTHOR AND SOLE CODE DEVELOPER
 
-Contributors:
-Dr. Yaser Afshar, University of Michigan 
+Panagiotis E. Hadjidoukas
+CEID-HPCLAB, University of Patras, Greece
+
+Panagiotis E. Hadjidoukas is the original author, sole code developer,
+and current maintainer of Torc-Lite.
+
+ACKNOWLEDGMENTS
+
+Yaser Afshar (University of Michigan, as credited in the original AUTHORS
+file) tested the library and provided feedback and suggestions for
+improvements. Related changes he developed in his own separate GitHub
+repository are not code contributions to this Torc-Lite repository.
+
+PUBLICATION AUTHORSHIP
+
+The original TORC research publication was written by Panagiotis E.
+Hadjidoukas, Evaggelos Lappas, and Vassilios V. Dimakopoulos.
+Publication authorship should not be confused with Torc-Lite code authorship.
+
+For citation metadata, see CITATION.cff. For related scientific
+publications, see the README.

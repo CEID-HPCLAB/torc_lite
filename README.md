@@ -273,7 +273,31 @@ Notes:
 
 
 ## License
-Torc‑Lite is distributed under the GNU General Public License. See `COPYING` and `LICENSE` for the exact terms.
+Torc-Lite is distributed under the MIT License. See LICENSE for the full license text.
+Torc-Lite was developed by Panagiotis E. Hadjidoukas. The project preserves the original copyright and authorship notices.
+Third-party components, if any, remain subject to their respective licenses, as documented in their directories.
+
 
 ## Authors / Contact
 See the `AUTHORS` file for contributors and historical credits. The repository originally created by Panagiotis Hadjidoukas and collaborators.
+
+
+## Related publications
+
+**Preferred citation for Torc-Lite**
+
+- P. E. Hadjidoukas, E. Lappas, and V. V. Dimakopoulos, **“A Runtime Library for Platform-Independent Task Parallelism,”** *20th Euromicro International Conference on Parallel, Distributed and Network-Based Processing (PDP)*, pp. 229–236, 2012. [DOI: 10.1109/PDP.2012.89](https://doi.org/10.1109/PDP.2012.89).
+
+**Earlier foundations and subsequent applications/extensions**
+
+- P. E. Hadjidoukas, **“A Lightweight Framework for Executing Task Parallelism on Top of MPI,”** *Recent Advances in Parallel Virtual Machine and Message Passing Interface*, pp. 287–294, 2004. [DOI: 10.1007/978-3-540-30218-6_41](https://doi.org/10.1007/978-3-540-30218-6_41). *(Earlier research on MPI task parallelism.)*
+- V. V. Dimakopoulos and P. E. Hadjidoukas, **“HOMPI: A Hybrid Programming Framework for Expressing and Deploying Task-Based Parallelism,”** *Euro-Par 2011*, pp. 14–26, 2011. [DOI: 10.1007/978-3-642-23397-5_3](https://doi.org/10.1007/978-3-642-23397-5_3). *(Task programming environment using TORC as its runtime.)*
+- P. E. Hadjidoukas, C. Voglis, V. V. Dimakopoulos, I. E. Lagaris, and D. G. Papageorgiou, **“Supporting Adaptive and Irregular Parallelism for Non-Linear Numerical Optimization,”** *Applied Mathematics and Computation*, vol. 231, pp. 544–559, 2014. [DOI: 10.1016/j.amc.2013.12.092](https://doi.org/10.1016/j.amc.2013.12.092). *(Nested task parallelism and optimization with TORC.)*
+- P. E. Hadjidoukas, P. Angelikopoulos, C. Papadimitriou, and P. Koumoutsakos, **“Π4U: A High Performance Computing Framework for Bayesian Uncertainty Quantification of Complex Models,”** *Journal of Computational Physics*, vol. 284, pp. 1–21, 2015. [DOI: 10.1016/j.jcp.2014.12.006](https://doi.org/10.1016/j.jcp.2014.12.006). *(Application framework using TORC.)*
+- P. E. Hadjidoukas, A. Bartezzaghi, F. Scheidegger, R. Istrate, C. Bekas, and A. C. I. Malossi, **“torcpy: Supporting Task Parallelism in Python,”** *SoftwareX*, vol. 12, article 100517, 2020. [DOI: 10.1016/j.softx.2020.100517](https://doi.org/10.1016/j.softx.2020.100517). *(Related Python task-parallel runtime software, not an additional paper specifically documenting this C repository.)*
+
+The papers describe related research at different stages and are not interchangeable citations for this specific Torc-Lite codebase. GitHub's **Cite this repository** action uses the PDP 2012 paper specified in [`CITATION.cff`](CITATION.cff).
+
+## Software authorship and acknowledgments
+
+Torc-Lite was authored and developed solely by **Panagiotis E. Hadjidoukas**. **Yaser Afshar** tested the library and provided feedback and suggestions for improvements. Related changes implemented by Afshar in his separate GitHub repository are not code contributions to this repository. See [`AUTHORS`](AUTHORS) for the full attribution.

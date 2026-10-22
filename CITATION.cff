@@ -1,0 +1,48 @@
+cff-version: 1.2.0
+message: >-
+  If you use Torc-Lite in research, please cite the original TORC paper
+  given under preferred-citation. See the repository README for other
+  publications describing applications and extensions of TORC.
+type: software
+title: "Torc-Lite: A Task-Based Parallel Runtime for MPI Applications"
+abstract: >-
+  Torc-Lite is a lightweight task-based runtime written in C. It combines
+  MPI processes and POSIX threads for portable task creation, scheduling,
+  synchronization, nested parallelism, and dynamic load balancing on
+  multicore systems and distributed-memory clusters.
+authors:
+  - family-names: Hadjidoukas
+    given-names: Panagiotis E.
+    affiliation: University of Patras, Greece
+    orcid: https://orcid.org/0000-0002-2528-7568
+repository-code: https://github.com/CEID-HPCLAB/torc_lite
+url: https://github.com/CEID-HPCLAB/torc_lite
+keywords:
+  - task parallelism
+  - MPI
+  - POSIX threads
+  - nested parallelism
+  - distributed computing
+  - runtime systems
+  - load balancing
+  - high-performance computing
+preferred-citation:
+  type: conference-paper
+  title: "A Runtime Library for Platform-Independent Task Parallelism"
+  authors:
+    - family-names: Hadjidoukas
+      given-names: Panagiotis E.
+    - family-names: Lappas
+      given-names: Evaggelos
+    - family-names: Dimakopoulos
+      given-names: Vassilios V.
+  conference:
+    name: >-
+      20th Euromicro International Conference on Parallel,
+      Distributed and Network-Based Processing (PDP 2012)
+  year: 2012
+  start: 229
+  end: 236
+  doi: 10.1109/PDP.2012.89
+  publisher:
+    name: IEEE
