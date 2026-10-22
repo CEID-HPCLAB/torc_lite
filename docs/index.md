@@ -4,23 +4,32 @@
 
 **Torc-Lite** lets C and Fortran applications create asynchronous tasks, synchronize their results, and distribute work using worker threads, MPI processes, and task stealing. Its programming model separates *what a task computes* from *where the task runs*.
 
+
 <div class="grid cards" markdown>
 
--   :material-rocket-launch-outline: **[Get started](getting-started/installation.md)**
+-   :material-rocket-launch-outline:{ .lg .middle } **[Get started](getting-started/installation.md)**
+
+    ---
 
     Install the runtime, build the demos, and run your first program.
 
--   :material-code-braces: **[Programming model](concepts/lifecycle.md)**
+-   :material-code-braces:{ .lg .middle } **[Programming model](concepts/lifecycle.md)**
 
-    Understand task registration, data-passing modes, waits, and nesting.
+    ---
 
--   :material-transit-connection-variant: **[Runtime architecture](concepts/architecture.md)**
+    Understand task registration, data-passing modes, waits, and nested parallelism.
 
-    Explore MPI processes, worker/server threads, queues, and work stealing.
+-   :material-transit-connection-variant:{ .lg .middle } **[Runtime architecture](concepts/architecture.md)**
 
--   :material-test-tube: **[Source-backed examples](examples/index.md)**
+    ---
 
-    Learn from the examples that ship with the repository.
+    Explore MPI processes, worker/server threads, task queues, and work stealing.
+
+-   :material-test-tube:{ .lg .middle } **[Examples](examples/index.md)**
+
+    ---
+
+    Learn task-based programming using the C examples included in the repository.
 
 </div>
 
