@@ -1,0 +1,7 @@
+:root { --md-primary-fg-color: #243d67; --md-accent-fg-color: #0077be; }
+.md-typeset h1 { font-weight: 720; letter-spacing: -0.025em; }
+.md-typeset h2 { margin-top: 1.7em; font-weight: 650; }
+.md-typeset table:not([class]) th { background-color: var(--md-code-bg-color); }
+.md-typeset pre { border-radius: .45rem; }
+.md-typeset .admonition { border-radius: .45rem; }
+.project-lead { font-size: 1.15em; max-width: 56em; }
