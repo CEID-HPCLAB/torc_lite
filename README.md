@@ -1,13 +1,13 @@
 # Torc‑Lite
 
-Torc‑Lite is a lightweight task-based runtime for MPI applications that provides a master/worker execution model and local multithreading (pthreads). It exposes a small C API to create tasks, synchronize, and exchange data across MPI nodes.
+Torc‑Lite (TORC) is a lightweight task-based runtime for MPI applications that provides a master/worker execution model and local multithreading (pthreads). It exposes a small C API for creating tasks, synchronizing, and exchanging data across MPI nodes.
 
 Key goals:
 - Provide a compact, portable runtime for task-parallel MPI programs.
 - Support multiple POSIX synchronization strategies (mutexes or spinlocks).
 - Offer a simple API that integrates with existing MPI applications and Fortran code.
 
-For details and historical notes see the original INSTALL and COPYING files included in the repository.
+For details and historical notes, see the original INSTALL and COPYING files included in the repository.
 
 ---
 
@@ -99,7 +99,7 @@ See `include/torc.h` for full declarations. Key functions:
 - `void torc_broadcast(void *a, long count, MPI_Datatype dtype);` — broadcast data to the MPI processes.
 
 
-Public API is declared in `include/torc.h` and additional internal helpers live in the `include/` headers.
+The public API is declared in `include/torc.h,` and additional internal helpers live in the `include/` headers.
 
 Functions that may execute on another MPI process must be registered with
 `torc_register_task()` on every MPI process. Tasks must be registered in the
