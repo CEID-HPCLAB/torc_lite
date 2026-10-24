@@ -301,3 +301,19 @@ The papers describe related research at different stages and are not interchange
 ## Software authorship and acknowledgments
 
 Torc-Lite was authored and developed solely by **Panagiotis E. Hadjidoukas**. **Yaser Afshar** tested the library and provided feedback and suggestions for improvements. Related changes implemented by Afshar in his separate GitHub repository are not code contributions to this repository. See [`AUTHORS`](AUTHORS) for the full attribution.
+
+
+## Local access to the documentation 
+
+**Local build:**
+
+```bash
+python3 -m venv .venv
+. .venv/bin/activate
+python -m pip install -r docs/requirements.txt
+python docs/generate_reference.py
+mkdocs serve
+# or: mkdocs build --strict
+```
+
+ 
