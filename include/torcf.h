@@ -52,9 +52,10 @@ C
       EXTERNAL torc_disable_stealing
       EXTERNAL torc_sleep
 
-      EXTERNAL torc_broadcastf
-      EXTERNAL torc_initf
-      EXTERNAL torc_createf
-      EXTERNAL torc_taskf
+      EXTERNAL torc_broadcast
+      EXTERNAL torc_init
+      EXTERNAL torc_create
+      EXTERNAL torc_task
+      EXTERNAL torc_create_packed
 
 

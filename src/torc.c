@@ -686,7 +686,7 @@ void F77_FUNC_(torc_waitall, TORC_WAITALL)()
 }
 #endif
 
-void F77_FUNC_(torc_createf, TORC_CREATEF) (int *pqueue, void (* work) (), int *pnarg, ...)
+void F77_FUNC_(torc_create, TORC_CREATE) (int *pqueue, void (* work) (), int *pnarg, ...)
 {
     int queue = *pqueue;
     int narg = *pnarg;
@@ -785,8 +785,9 @@ void F77_FUNC_(torc_createf, TORC_CREATEF) (int *pqueue, void (* work) (), int *
     }
 }
 
+
 // this is here to support the new pndl version
-void F77_FUNC_(torc_taskf, TORC_TASKF) (void (* work) (), int *ptype, int *pnarg, ...)
+void F77_FUNC_(torc_task, TORC_TASK) (void (* work) (), int *ptype, int *pnarg, ...)
 {
     int queue = torc_worker_id(); /* *pqueue; */
     int narg = *pnarg;
@@ -918,7 +919,7 @@ int F77_FUNC_(torc_num_nodes, TORC_NUM_NODES) (void)
 }
 #endif
 
-void F77_FUNC_(torc_broadcastf, TORC_BROADCASTF) (void *a, long *count, MPI_Fint *datatype)
+void F77_FUNC_(torc_broadcast, TORC_BROADCAST) (void *a, long *count, MPI_Fint *datatype)
 {
 
     MPI_Datatype dt;
@@ -965,7 +966,7 @@ int F77_FUNC_(torc_sched_nextcpu, TORC_SCHED_NEXTCPU) (int *cpu, int *stride)
 }
 #endif
 
-void F77_FUNC_(torc_initf, TORC_INITF) (int *mode)
+void F77_FUNC_(torc_init, TORC_INIT) (int *mode)
 {
     torc_init(0, NULL, *mode);
 }
@@ -986,3 +987,188 @@ void F77_FUNC_(fff, FFF) ()
 #endif
 
 #undef f77fun
+
+
+
+#if 1
+
+
+/*
+ * Packed task creation with native C MPI datatypes.
+ *
+ * Common implementation for C and Fortran applications.
+ * No variadic arguments.
+ */
+void torc_create_packed(
+    int queue,
+    func_t work,
+    int narg,
+    const int *quantities,
+    const MPI_Datatype *datatypes,
+    const int *callways,
+    void *const *addresses)
+{
+    torc_t *self;
+    torc_t *rte;
+
+    validate_task_arg_count(narg);
+
+    if (work == NULL ||
+        (narg > 0 &&
+         (!quantities || !datatypes ||
+          !callways || !addresses)))
+        Error("invalid packed task arguments");
+
+    self = _torc_self();
+
+    if (self == NULL)
+        Error("TORC is not initialized");
+
+    /* Register task dependency */
+    _lock_acquire(&self->lock);
+    if (self->ndep == 0)
+        self->ndep = 1;
+    _lock_release(&self->lock);
+
+    _torc_depadd(self, 1);
+
+    /* Initialize task descriptor */
+    rte = _torc_get_reused_desc();
+    _initialize(rte);
+
+    _torc_set_work_routine(rte, work);
+
+    rte->narg       = narg;
+    rte->rte_type   = 1;
+    rte->inter_node = 1;
+    rte->parent     = self;
+    rte->level      = self->level + 1;
+
+#ifdef TORC_STATS
+    if (!invisible_flag)
+        created[self->vp_id]++;
+    else
+        rte->rte_type = 2;
+#endif
+
+    /* Argument metadata */
+    for (int i = 0; i < narg; i++) {
+
+        validate_task_arg_quantity(quantities[i]);
+
+        rte->quantity[i] = quantities[i];
+
+        /* Native MPI_Datatype: no conversion needed */
+        rte->dtype[i] = datatypes[i];
+
+        if (rte->dtype[i] == MPI_DATATYPE_NULL)
+            Error("invalid MPI datatype");
+
+        rte->btype[i] = _torc_mpi2b_type(rte->dtype[i]);
+
+        rte->callway[i] = callways[i];
+
+        if (rte->callway[i] == CALL_BY_COP &&
+            rte->quantity[i] > 1)
+            rte->callway[i] = CALL_BY_COP2;
+    }
+
+    /* Argument values and addresses */
+    for (int i = 0; i < narg; i++) {
+
+        int count = rte->quantity[i];
+        int mode = rte->callway[i];
+        void *addr = addresses[i];
+
+        if (count == 0) {
+            rte->localarg[i] = 0;
+            continue;
+        }
+
+        if (addr == NULL)
+            Error("NULL task argument");
+
+        if (mode == CALL_BY_COP) {
+
+            int size = checked_mpi_type_size(rte->dtype[i]);
+
+            if (size != 4 && size != 8)
+                Error("unsupported scalar size");
+
+            rte->localarg[i] = 0;
+            memcpy(&rte->localarg[i], addr, (size_t)size);
+        }
+        else if (mode == CALL_BY_COP2) {
+
+            void *copy = copy_argument_buffer(
+                (VIRT_ADDR)(uintptr_t)addr,
+                count,
+                rte->dtype[i]);
+
+            rte->localarg[i] = (INT64)(uintptr_t)copy;
+        }
+        else {
+
+            /* CALL_BY_REF, CALL_BY_RES, etc. */
+            rte->localarg[i] = (INT64)(uintptr_t)addr;
+        }
+    }
+
+    /* Submit task */
+    if (queue == -1)
+        torc_to_rq_end(rte);
+    else
+        torc_to_lrq_end(queue, rte);
+}
+
+
+/*
+ * Fortran 77 wrapper.
+ *
+ * Converts Fortran MPI datatype handles to native C
+ * MPI_Datatype values, then calls torc_create_packed().
+ *
+ * Uses a fixed argument list: no va_arg().
+ */
+void F77_FUNC_(torc_create_packed, TORC_CREATE_PACKED)(
+    const int *pqueue,
+    func_t work,
+    const int *pnarg,
+    const int *quantities,
+    const MPI_Fint *datatypes,
+    const int *callways,
+    const uintptr_t *addresses)
+{
+    MPI_Datatype c_datatypes[MAX_TORC_ARGS];
+    void *c_addresses[MAX_TORC_ARGS];
+
+    int narg = *pnarg;
+
+    validate_task_arg_count(narg);
+
+    if (narg > 0 &&
+        (!quantities || !datatypes ||
+         !callways || !addresses))
+        Error("invalid packed Fortran arguments");
+
+    for (int i = 0; i < narg; i++) {
+
+        /* Convert Fortran MPI handle to C */
+        c_datatypes[i] = MPI_Type_f2c(datatypes[i]);
+
+        /* Convert pointer-sized integer to address */
+        c_addresses[i] = (void *)(uintptr_t)addresses[i];
+    }
+
+    torc_create_packed(
+        *pqueue,
+        work,
+        narg,
+        quantities,
+        c_datatypes,
+        callways,
+        c_addresses);
+}
+
+
+#endif

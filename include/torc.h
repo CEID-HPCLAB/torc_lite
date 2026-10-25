@@ -72,6 +72,15 @@ void torc_task_direct(int queue, void (*f) (), int narg, ...);
 //void torc_task_direct (int queue, void *f, int narg, ...);
 //#endif
 
+void torc_create_packed(
+    int queue,
+    void (*f)(),
+    int narg,
+    const int *quantities,
+    const MPI_Datatype *datatypes,
+    const int *callways,
+    void *const *addresses);
+
 #define torc_create          torc_task
 #define torc_create_detached torc_task_detached
 #define torc_create_ex       torc_task_ex
